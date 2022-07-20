@@ -1,11 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Form from "./components/Form";
-import List from "./components/List";
+import Lists from "./components/Lists";
 
 export default function App() {
-  const [todoData, setTodoData] = useState([]);
+  const initialTodoData = localStorage.getItem("todoData")
+    ? JSON.parse(localStorage.getItem("todoData"))
+    : [];
+  const [todoData, setTodoData] = useState(initialTodoData);
   const [value, setValue] = useState("");
+
+  useEffect(() => {
+    console.log(todoData);
+    localStorage.setItem("todoData", JSON.stringify(todoData));
+  }, [todoData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,13 +28,20 @@ export default function App() {
     }
   };
 
+  const handleRemoveClick = () => {
+    setTodoData([]);
+  };
+
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-blue-200">
       <div className="w-full p-6 m-4 bg-white rounded shadow lg:w-3/4 lg:max-w-lg">
         <div className="flex justify-between mb-3">
           <h1 className="">할 일 목록</h1>
+          <button className="" onClick={handleRemoveClick}>
+            모두 삭제
+          </button>
         </div>
-        <List todoData={todoData} setTodoData={setTodoData} />
+        <Lists todoData={todoData} setTodoData={setTodoData} />
         <Form handleSubmit={handleSubmit} value={value} setValue={setValue} />
       </div>
     </div>
