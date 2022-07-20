@@ -37,7 +37,7 @@ const List = React.memo(
           className={`${"bg-gray-100"} flex items-center justify-between w-full px-4 py-2 my-2 text-gray-600  border rounded`}
         >
           <div className="items-center">
-            <form>
+            <form onSubmit={handleSubmit}>
               <input
                 value={editedTitle}
                 onChange={handleEditingTitle}
